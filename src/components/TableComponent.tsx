@@ -1,4 +1,5 @@
-﻿import { EarningItem } from "@/utils/types";
+﻿import { valueFormatter } from "@/utils";
+import { EarningItem } from "@/utils/types";
 import {
   Card,
   Table,
@@ -14,11 +15,11 @@ import {
 
 const TableComponent = ({ earnings }: { earnings: EarningItem[] }) => (
   <Card>
-    <Title>List of Swiss Federal Councillours</Title>
+    <Title>Ganancias - Gastos</Title>
     <Table className="mt-5">
       <TableHead>
         <TableRow>
-          <TableHeaderCell>Fecha</TableHeaderCell>
+          <TableHeaderCell>Fechas</TableHeaderCell>
           <TableHeaderCell>Cantidad</TableHeaderCell>
           <TableHeaderCell>Tipo</TableHeaderCell>
         </TableRow>
@@ -28,7 +29,7 @@ const TableComponent = ({ earnings }: { earnings: EarningItem[] }) => (
           <TableRow key={item.value}>
             <TableCell>desde-hasta</TableCell>
             <TableCell>
-              <Text>{item.value}</Text>
+              <Text>{valueFormatter(item.value)}</Text>
             </TableCell>
 
             <TableCell>

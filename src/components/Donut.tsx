@@ -1,9 +1,7 @@
 ﻿"use client";
+import { valueFormatter } from "@/utils";
 import { EarningItem } from "@/utils/types";
-import { Card, Title, DonutChart } from "@tremor/react";
-
-const valueFormatter = (number: number) =>
-  `$ ${Intl.NumberFormat("es-CL").format(number).toString()}`;
+import { Card, Title, DonutChart, Text } from "@tremor/react";
 
 const Donut = ({ earnings }: { earnings: EarningItem[] }) => {
   const balance = [
@@ -30,6 +28,8 @@ const Donut = ({ earnings }: { earnings: EarningItem[] }) => {
       ),
     },
   ];
+  const percentage = (balance[1].value / balance[0].value) * 100;
+  const netEarnings = balance[0].value - balance[1].value;
   return (
     <Card className="max-w-lg">
       <Title>Uber earnings</Title>
@@ -40,8 +40,9 @@ const Donut = ({ earnings }: { earnings: EarningItem[] }) => {
         index="type"
         valueFormatter={valueFormatter}
         colors={["green", "red"]}
-        label={valueFormatter(balance[0].value - balance[1].value)}
+        label={valueFormatter(netEarnings)}
       />
+      <Text>{percentage.toFixed(0)} % of total in gas</Text>
     </Card>
   );
 };
