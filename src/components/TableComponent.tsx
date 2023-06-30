@@ -27,7 +27,13 @@ const TableComponent = ({ earnings }: { earnings: EarningItem[] }) => (
       <TableBody>
         {earnings.map((item) => (
           <TableRow key={item.value}>
-            <TableCell>desde-hasta</TableCell>
+            <TableCell>
+              {new Date(`${item.date} 00:00:00`).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </TableCell>
             <TableCell>
               <Text>{valueFormatter(item.value)}</Text>
             </TableCell>
