@@ -11,11 +11,13 @@ import {
   Text,
   Title,
   Badge,
+  Button,
 } from "@tremor/react";
 
 const TableComponent = ({ earnings }: { earnings: EarningItem[] }) => (
   <Card>
     <Title>Ganancias - Gastos</Title>
+    <Button>Add</Button>
     <Table className="mt-5">
       <TableHead>
         <TableRow>
