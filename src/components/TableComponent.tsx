@@ -13,11 +13,14 @@ import {
   Badge,
   Button,
 } from "@tremor/react";
+import Link from "next/link";
 
 const TableComponent = ({ earnings }: { earnings: EarningItem[] }) => (
   <Card>
     <Title>Ganancias - Gastos</Title>
-    <Button>Add</Button>
+    <Link href="/earning" className="text-cyan-500 underline">
+      Add Item
+    </Link>
     <Table className="mt-5">
       <TableHead>
         <TableRow>
@@ -37,7 +40,15 @@ const TableComponent = ({ earnings }: { earnings: EarningItem[] }) => (
               })}
             </TableCell>
             <TableCell>
-              <Text>{valueFormatter(item.amount)}</Text>
+              <Text>
+                {valueFormatter(item.amount)}{" "}
+                <Link
+                  href={`/earning/${item.id}`}
+                  className="text-xs text-cyan-500"
+                >
+                  edit
+                </Link>
+              </Text>
             </TableCell>
 
             <TableCell>
