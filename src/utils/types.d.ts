@@ -1,6 +1,6 @@
 ﻿export type EarningItem = {
   id: string;
   type: "earning" | "expense";
-  value: number;
+  amount: number;
   date: string;
 };

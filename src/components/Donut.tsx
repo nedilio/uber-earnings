@@ -7,10 +7,10 @@ const Donut = ({ earnings }: { earnings: EarningItem[] }) => {
   const balance = [
     {
       type: "earning",
-      value: earnings.reduce(
+      amount: earnings.reduce(
         (accumulator: number, currentValue: EarningItem): number => {
           if (currentValue.type === "earning")
-            return accumulator + currentValue.value;
+            return accumulator + currentValue.amount;
           else return accumulator;
         },
         0
@@ -18,25 +18,25 @@ const Donut = ({ earnings }: { earnings: EarningItem[] }) => {
     },
     {
       type: "expense",
-      value: earnings.reduce(
+      amount: earnings.reduce(
         (accumulator: number, currentValue: EarningItem): number => {
           if (currentValue.type === "expense")
-            return accumulator + currentValue.value;
+            return accumulator + currentValue.amount;
           else return accumulator;
         },
         0
       ),
     },
   ];
-  const percentage = (balance[1].value / balance[0].value) * 100;
-  const netEarnings = balance[0].value - balance[1].value;
+  const percentage = (balance[1].amount / balance[0].amount) * 100;
+  const netEarnings = balance[0].amount - balance[1].amount;
   return (
     <Card className="max-w-lg">
       <Title>Uber earnings</Title>
       <DonutChart
         className="mt-6"
         data={balance}
-        category="value"
+        category="amount"
         index="type"
         valueFormatter={valueFormatter}
         colors={["green", "red"]}
