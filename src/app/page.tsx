@@ -7,7 +7,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-between p-8 gap-8">
       <Donut earnings={earnings} />
       <TableComponent
-        earnings={[...earnings].sort((a, b) => a.date.localeCompare(b.date))}
+        earnings={[...earnings].sort((a, b) => b.date.localeCompare(a.date))}
       />
     </main>
   );
