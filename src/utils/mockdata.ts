@@ -184,7 +184,13 @@ export const earnings: EarningItem[] = [
   {
     id: "29",
     type: "earning",
-    amount: 10898,
+    amount: 34593,
     date: "2023-07-03",
+  },
+  {
+    id: "30",
+    type: "expense",
+    amount: 15000,
+    date: "2023-07-03"
   },
 ];
