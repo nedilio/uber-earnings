@@ -27,7 +27,6 @@ const TableComponent = ({ earnings }: { earnings: EarningItem[] }) => (
         <TableRow>
           <TableHeaderCell>Fechas</TableHeaderCell>
           <TableHeaderCell>Cantidad</TableHeaderCell>
-          <TableHeaderCell>Tipo</TableHeaderCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -42,7 +41,10 @@ const TableComponent = ({ earnings }: { earnings: EarningItem[] }) => (
             </TableCell>
             <TableCell>
               <Text>
-                {valueFormatter(item.amount)}{" "}
+                <Badge color={item.type === "earning" ? "emerald" : "red"}>
+                  {valueFormatter(item.amount)}{" "}
+                </Badge>
+
                 <Link
                   href={`/earning/${item.id}`}
                   className="text-xs text-cyan-500"
@@ -51,12 +53,6 @@ const TableComponent = ({ earnings }: { earnings: EarningItem[] }) => (
                 </Link>
                 <DeleteButton id={item.id} />
               </Text>
-            </TableCell>
-
-            <TableCell>
-              <Badge color={item.type === "earning" ? "emerald" : "red"}>
-                {item.type}
-              </Badge>
             </TableCell>
           </TableRow>
         ))}
