@@ -1,4 +1,4 @@
-﻿import { addData, getData, updateData } from "@/services/supabase";
+﻿import { addData, getData } from "@/services/supabase";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
