@@ -1,14 +1,14 @@
 import Donut from "@/components/Donut";
 import TableComponent from "@/components/TableComponent";
-import { earnings } from "@/utils/mockdata";
 const baseURL = process.env.API_BASE_URL;
 
 export default async function Home() {
   let response;
   let earnings;
+  console.log("Fetch data from: ", `${baseURL}/api/earning`);
 
   try {
-    response = await fetch(`${baseURL}/api/earninga`, {
+    response = await fetch(`${baseURL}/api/earning`, {
       cache: "no-store",
     });
   } catch (error) {
