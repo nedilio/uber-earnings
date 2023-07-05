@@ -1,6 +1,13 @@
 ﻿"use client";
 import { EarningItem } from "@/utils/types";
-import { Button, Card, Select, SelectItem, TextInput } from "@tremor/react";
+import {
+  Button,
+  Card,
+  Datepicker,
+  Select,
+  SelectItem,
+  TextInput,
+} from "@tremor/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -10,6 +17,14 @@ interface Data {
   amount: FormDataEntryValue | null;
   date: FormDataEntryValue | null;
 }
+const formatDate = (date: Date) => {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+
+  const formattedDate = `${year}-${month}-${day}`;
+  return formattedDate;
+};
 
 const Form = ({
   earning,
@@ -23,6 +38,7 @@ const Form = ({
   const [type, setType] = useState<string>(
     earning !== undefined ? earning.type : "earning"
   );
+  const [fecha, setFecha] = useState<string>(formatDate(new Date()));
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,13 +46,13 @@ const Form = ({
     console.log({
       type: data.get("type"),
       amount: data.get("amount"),
-      date: data.get("date"),
+      date: fecha,
     });
     const method = earning ? "PUT" : "POST";
     const dbdata: Data = {
       type: data.get("type"),
       amount: data.get("amount"),
-      date: data.get("date"),
+      date: fecha,
     };
     if (earning) {
       dbdata.id = earning.id;
@@ -55,6 +71,12 @@ const Form = ({
       });
     e.currentTarget.reset();
   };
+
+  const changeDate = (date: Date | undefined) => {
+    if (!date) return;
+    setFecha(formatDate(date));
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <p>{JSON.stringify(earning)}</p>
@@ -78,11 +100,8 @@ const Form = ({
           typeof="numbers"
           defaultValue={earning?.amount.toString() || ""}
         />
-        <TextInput
-          name="date"
-          placeholder="YYYY-MM-DD"
-          defaultValue={earning?.date || "2023-07-01"}
-        />
+
+        <Datepicker defaultValue={new Date()} onValueChange={changeDate} />
         <Button>{earning ? "Update" : "Submit"}</Button>
       </Card>
     </form>
