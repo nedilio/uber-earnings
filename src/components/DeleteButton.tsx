@@ -13,7 +13,16 @@ const DeleteButton = ({ id }: { id: string }) => {
       router.refresh();
     });
   };
-  return <Button onClick={() => handelDelete(id)}>Delete</Button>;
+  return (
+    <Button
+      className="text-xs"
+      color="slate"
+      size="xs"
+      onClick={() => handelDelete(id)}
+    >
+      ❌
+    </Button>
+  );
 };
 
 export default DeleteButton;
