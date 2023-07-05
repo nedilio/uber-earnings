@@ -3,7 +3,9 @@
 const Earning = () => {
   return (
     <div>
-      <Form />
+      <Form
+        baseURL={process.env.API_BASE_URL ? process.env.API_BASE_URL : ""}
+      />
     </div>
   );
 };

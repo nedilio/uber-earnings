@@ -13,12 +13,10 @@ const supabase = createClient(process.env.PROJECT_URL, process.env.ANON_KEY, {
 });
 
 export const getData = async (): Promise<EarningItem[]> => {
-  console.log("Buscamos datos...");
   const { data, error } = await supabase.from("earnings").select();
   if (error) {
     throw error;
   }
-  console.log("📅", data, error);
   return data;
 };
 
@@ -47,6 +45,5 @@ export const updateData = async (
 export const getEarningById = async (id: string): Promise<EarningItem> => {
   const { data, error } = await supabase.from("earnings").select().eq("id", id);
   if (error) throw error;
-  console.log(data);
   return data[0];
 };

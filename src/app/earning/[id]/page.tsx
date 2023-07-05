@@ -8,12 +8,19 @@ export default async function EarningEdit({
 }: {
   params: { id: string };
 }) {
-  const earning = await getEarningById(params.id);
+  const data = await fetch(
+    `${process.env.API_BASE_URL}/api/earning/${params.id}`,
+    { cache: "no-store" }
+  );
+  const earning = await data.json();
 
   return (
     <div>
       EarningEdit {params.id}
-      <Form earning={earning} />
+      <Form
+        earning={earning}
+        baseURL={process.env.API_BASE_URL ? process.env.API_BASE_URL : ""}
+      />
     </div>
   );
 }

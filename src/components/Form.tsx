@@ -10,11 +10,18 @@ interface Data {
   date: FormDataEntryValue | null;
 }
 
-//conditional or opearator is
-const Form = ({ earning }: { earning?: EarningItem }) => {
+const Form = ({
+  earning,
+  baseURL,
+}: {
+  earning?: EarningItem;
+  baseURL: string;
+}) => {
+  let url = `${baseURL}/api/earning/`;
   const [type, setType] = useState<string>(
     earning !== undefined ? earning.type : "earning"
   );
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
@@ -31,10 +38,13 @@ const Form = ({ earning }: { earning?: EarningItem }) => {
     };
     if (earning) {
       dbdata.id = earning.id;
+      url = `${url}/${earning.id}`;
     }
-    fetch("/api/earning", {
+    console.log(url);
+    fetch(`${url}`, {
       method,
       body: JSON.stringify(dbdata),
+      cache: "no-store",
     })
       .then((res) => res.json())
       .then(console.log);

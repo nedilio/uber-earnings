@@ -1,4 +1,4 @@
-﻿import { addData, updateData } from "@/services/supabase";
+﻿import { addData, getData, updateData } from "@/services/supabase";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -10,8 +10,7 @@ export async function POST(request: Request) {
   return NextResponse.json(data);
 }
 
-export async function PUT(request: Request) {
-  const { id, ...data } = await request.json();
-  const res = await updateData(id, data);
+export async function GET() {
+  const res = await getData();
   return NextResponse.json(res);
 }
