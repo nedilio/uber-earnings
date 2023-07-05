@@ -22,7 +22,10 @@ const formatDate = (date: Date) => {
   const month = date.getMonth() + 1;
   const day = date.getDate();
 
-  const formattedDate = `${year}-${month}-${day}`;
+  const formattedDate = `${year}-${month > 9 ? month : "0" + month}-${
+    day > 9 ? day : "0" + day
+  }`;
+  console.log(formattedDate);
   return formattedDate;
 };
 
@@ -38,7 +41,8 @@ const Form = ({
   const [type, setType] = useState<string>(
     earning !== undefined ? earning.type : "earning"
   );
-  const [fecha, setFecha] = useState<string>(formatDate(new Date()));
+  const initialDate = earning?.date ? new Date(earning.date) : new Date();
+  const [fecha, setFecha] = useState<string>(formatDate(initialDate));
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -101,7 +105,7 @@ const Form = ({
           defaultValue={earning?.amount.toString() || ""}
         />
 
-        <Datepicker defaultValue={new Date()} onValueChange={changeDate} />
+        <Datepicker defaultValue={initialDate} onValueChange={changeDate} />
         <Button>{earning ? "Update" : "Submit"}</Button>
       </Card>
     </form>
