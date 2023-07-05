@@ -47,3 +47,8 @@ export const getEarningById = async (id: string): Promise<EarningItem> => {
   if (error) throw error;
   return data[0];
 };
+
+export const deleteEarning = async (id: string): Promise<void> => {
+  const { error } = await supabase.from("earnings").delete().eq("id", id);
+  if (error) throw error;
+};

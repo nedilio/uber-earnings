@@ -1,6 +1,7 @@
 ﻿"use client";
 import { EarningItem } from "@/utils/types";
 import { Button, Card, Select, SelectItem, TextInput } from "@tremor/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface Data {
@@ -17,6 +18,7 @@ const Form = ({
   earning?: EarningItem;
   baseURL: string;
 }) => {
+  const router = useRouter();
   let url = `${baseURL}/api/earning/`;
   const [type, setType] = useState<string>(
     earning !== undefined ? earning.type : "earning"
@@ -47,7 +49,10 @@ const Form = ({
       cache: "no-store",
     })
       .then((res) => res.json())
-      .then(console.log);
+      .then(async () => {
+        await router.refresh();
+        router.push("/");
+      });
     e.currentTarget.reset();
   };
   return (

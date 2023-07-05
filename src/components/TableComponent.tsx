@@ -14,6 +14,7 @@ import {
   Button,
 } from "@tremor/react";
 import Link from "next/link";
+import DeleteButton from "./DeleteButton";
 
 const TableComponent = ({ earnings }: { earnings: EarningItem[] }) => (
   <Card>
@@ -48,6 +49,7 @@ const TableComponent = ({ earnings }: { earnings: EarningItem[] }) => (
                 >
                   edit
                 </Link>
+                <DeleteButton id={item.id} />
               </Text>
             </TableCell>
 
