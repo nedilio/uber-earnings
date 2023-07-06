@@ -48,8 +48,7 @@ const Form = ({ earning, baseURL }: FormProps) => {
     }
     fetch(`${url}`, {
       method,
-      // body: JSON.stringify(data),
-      body: JSON.stringify({}),
+      body: JSON.stringify(data),
       cache: "no-store",
     })
       .then((res) => res.json())
