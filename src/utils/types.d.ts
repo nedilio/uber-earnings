@@ -1,5 +1,5 @@
 ﻿export type EarningItem = {
-  id: string;
+  id?: string;
   type: "earning" | "expense";
   amount: number;
   date: string;

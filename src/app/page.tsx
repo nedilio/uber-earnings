@@ -5,7 +5,6 @@ const baseURL = process.env.API_BASE_URL;
 export default async function Home() {
   let response;
   let earnings;
-  console.log("Fetch data from: ", `${baseURL}/api/earning`);
 
   try {
     response = await fetch(`${baseURL}/api/earning`, {

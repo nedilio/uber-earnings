@@ -1,4 +1,5 @@
 ﻿"use client";
+import { formatDate } from "@/utils";
 import { EarningItem } from "@/utils/types";
 import {
   Button,
@@ -11,66 +12,43 @@ import {
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-interface Data {
-  id?: string;
-  type: "earning" | "expense";
-  amount: FormDataEntryValue | null;
-  date: FormDataEntryValue | null;
-}
-const formatDate = (date: Date) => {
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-
-  const formattedDate = `${year}-${month > 9 ? month : "0" + month}-${
-    day > 9 ? day : "0" + day
-  }`;
-  console.log(formattedDate);
-  return formattedDate;
-};
-
-const Form = ({
-  earning,
-  baseURL,
-}: {
+interface FormProps {
   earning?: EarningItem;
   baseURL: string;
-}) => {
+}
+
+const Form = ({ earning, baseURL }: FormProps) => {
   const router = useRouter();
-  let url = `${baseURL}/api/earning/`;
+  let url = earning
+    ? `${baseURL}/api/earning/${earning.id}`
+    : `${baseURL}/api/earning/`;
   const [type, setType] = useState<"earning" | "expense">(
     earning !== undefined ? earning.type : "earning"
   );
-  const initialDate = earning?.date ? new Date(earning.date) : new Date();
+  const initialDate = earning ? new Date(earning.date) : new Date();
   const [fecha, setFecha] = useState<string>(formatDate(initialDate));
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    console.log({
-      type: type,
-      amount: data.get("amount"),
-      date: fecha,
-    });
+    const formData = new FormData(e.currentTarget);
+
     const method = earning ? "PUT" : "POST";
-    const dbdata: Data = {
+    const data: EarningItem = {
       type: type,
-      amount: data.get("amount"),
+      amount: Number(formData.get("amount")),
       date: fecha,
     };
     if (earning) {
-      dbdata.id = earning.id;
-      url = `${url}/${earning.id}`;
+      data.id = earning.id;
     }
-    console.log(url);
     fetch(`${url}`, {
       method,
-      body: JSON.stringify(dbdata),
+      body: JSON.stringify(data),
       cache: "no-store",
     })
       .then((res) => res.json())
-      .then(async () => {
-        await router.refresh();
+      .then(() => {
+        router.refresh();
         router.push("/");
       });
     e.currentTarget.reset();
@@ -80,6 +58,7 @@ const Form = ({
     if (!date) return;
     setFecha(formatDate(date));
   };
+
   const handleTypeChange = (type: string) => {
     console.log(type);
     setType(type as "earning" | "expense");
@@ -95,12 +74,7 @@ const Form = ({
             handleTypeChange(type);
           }}
         >
-          <SelectItem
-            value="earning"
-            //  icon={CalculatorIcon}
-          >
-            Earning
-          </SelectItem>
+          <SelectItem value="earning">Earning</SelectItem>
           <SelectItem value="expense">Expense</SelectItem>
         </Select>
         <TextInput

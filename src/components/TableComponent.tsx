@@ -52,7 +52,7 @@ const TableComponent = ({ earnings }: { earnings: EarningItem[] }) => (
                   >
                     edit
                   </Link>
-                  <DeleteButton id={item.id} />
+                  {item.id && <DeleteButton id={item.id} />}
                 </div>
               </Text>
             </TableCell>
