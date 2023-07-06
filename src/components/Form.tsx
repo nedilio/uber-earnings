@@ -47,7 +47,11 @@ const Form = ({ earning, baseURL }: FormProps) => {
       cache: "no-store",
     })
       .then((res) => res.json())
-      .then(() => {
+      .then((res) => {
+        if (res.code) {
+          alert(res.message);
+          return;
+        }
         router.refresh();
         router.push("/");
       });

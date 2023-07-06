@@ -3,11 +3,9 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   const data = await request.json();
-  await addData(data);
-
-  data.time = new Date().toISOString();
-
-  return NextResponse.json(data);
+  const response = await addData(data);
+  if ("code" in response) return NextResponse.json(response, { status: 400 });
+  return NextResponse.json(response, { status: 201 });
 }
 
 export async function GET() {

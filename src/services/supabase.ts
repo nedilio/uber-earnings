@@ -1,4 +1,4 @@
-﻿import { createClient } from "@supabase/supabase-js";
+﻿import { PostgrestError, createClient } from "@supabase/supabase-js";
 import { EarningItem } from "@/utils/types";
 
 if (!process.env.PROJECT_URL) {
@@ -20,11 +20,18 @@ export const getData = async (): Promise<EarningItem[]> => {
   return data;
 };
 
-export const addData = async (data: Omit<EarningItem, "id">): Promise<void> => {
-  const { error } = await supabase.from("earnings").insert(data);
+export const addData = async (
+  earning: Omit<EarningItem, "id">
+): Promise<EarningItem | PostgrestError> => {
+  const { data, error } = await supabase
+    .from("earnings")
+    .insert(earning)
+    .select();
   if (error) {
-    throw error;
+    console.log(error.message);
+    return error;
   }
+  return data[0] as EarningItem;
 };
 
 export const updateData = async (
@@ -39,7 +46,7 @@ export const updateData = async (
   if (error) {
     throw error;
   }
-  return data;
+  return data[0];
 };
 
 export const getEarningById = async (id: string): Promise<EarningItem> => {
