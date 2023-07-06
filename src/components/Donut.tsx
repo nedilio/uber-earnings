@@ -2,8 +2,11 @@
 import { valueFormatter } from "@/utils";
 import { EarningItem } from "@/utils/types";
 import { Card, Title, DonutChart, Text } from "@tremor/react";
+interface DonutProps {
+  earnings: EarningItem[];
+}
 
-const Donut = ({ earnings }: { earnings: EarningItem[] }) => {
+const Donut = ({ earnings }: DonutProps) => {
   const balance = [
     {
       type: "earning",
@@ -34,12 +37,12 @@ const Donut = ({ earnings }: { earnings: EarningItem[] }) => {
     <Card className="max-w-lg">
       <Title>Uber earnings</Title>
       <DonutChart
-        className="mt-6"
+        className="my-4"
         data={balance}
         category="amount"
         index="type"
         valueFormatter={valueFormatter}
-        colors={["green", "red"]}
+        colors={["teal", "red"]}
         label={valueFormatter(netEarnings)}
       />
       <Text>{percentage.toFixed(0)} % of total in gas</Text>

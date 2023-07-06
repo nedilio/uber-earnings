@@ -40,20 +40,18 @@ const TableComponent = ({ earnings }: { earnings: EarningItem[] }) => (
               })}
             </TableCell>
             <TableCell>
-              <Text>
-                <div className="flex items-center justify-start gap-x-4">
-                  <Badge color={item.type === "earning" ? "emerald" : "red"}>
-                    {valueFormatter(item.amount)}{" "}
-                  </Badge>
-                  <Link
-                    href={`/earning/${item.id}`}
-                    className="text-xs text-cyan-500"
-                  >
-                    edit
-                  </Link>
-                  {item.id && <DeleteButton id={item.id} />}
-                </div>
-              </Text>
+              <div className="flex items-center justify-start gap-x-4">
+                <Badge color={item.type === "earning" ? "emerald" : "red"}>
+                  {valueFormatter(item.amount)}{" "}
+                </Badge>
+                <Link
+                  href={`/earning/${item.id}`}
+                  className="text-xs text-cyan-500"
+                >
+                  edit
+                </Link>
+                {item.id && <DeleteButton id={item.id} />}
+              </div>
             </TableCell>
           </TableRow>
         ))}

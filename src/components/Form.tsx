@@ -28,7 +28,9 @@ const Form = ({ earning, baseURL }: FormProps) => {
     earning !== undefined ? earning.type : "earning"
   );
 
-  const initialDate = earning ? new Date(earning.date) : new Date();
+  const initialDate = earning
+    ? new Date(`${earning.date} 00:00:00`)
+    : new Date();
   const [fecha, setFecha] = useState<string>(formatDate(initialDate));
 
   const [error, setError] = useState<boolean>(false);
