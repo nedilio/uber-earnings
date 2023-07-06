@@ -13,7 +13,7 @@ import { useState } from "react";
 
 interface Data {
   id?: string;
-  type: FormDataEntryValue | null;
+  type: "earning" | "expense";
   amount: FormDataEntryValue | null;
   date: FormDataEntryValue | null;
 }
@@ -38,7 +38,7 @@ const Form = ({
 }) => {
   const router = useRouter();
   let url = `${baseURL}/api/earning/`;
-  const [type, setType] = useState<string>(
+  const [type, setType] = useState<"earning" | "expense">(
     earning !== undefined ? earning.type : "earning"
   );
   const initialDate = earning?.date ? new Date(earning.date) : new Date();
@@ -48,13 +48,13 @@ const Form = ({
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     console.log({
-      type: data.get("type"),
+      type: type,
       amount: data.get("amount"),
       date: fecha,
     });
     const method = earning ? "PUT" : "POST";
     const dbdata: Data = {
-      type: data.get("type"),
+      type: type,
       amount: data.get("amount"),
       date: fecha,
     };
@@ -80,16 +80,21 @@ const Form = ({
     if (!date) return;
     setFecha(formatDate(date));
   };
+  const handleTypeChange = (type: string) => {
+    console.log(type);
+    setType(type as "earning" | "expense");
+  };
 
   return (
     <form onSubmit={handleSubmit}>
       <p>{JSON.stringify(earning)}</p>
       <Card>
-        <select name="type" id="type" className="hidden" defaultValue={type}>
-          <option value="earning">Earning</option>
-          <option value="expense">Expense</option>
-        </select>
-        <Select defaultValue={type} onValueChange={setType}>
+        <Select
+          defaultValue={type}
+          onValueChange={(type) => {
+            handleTypeChange(type);
+          }}
+        >
           <SelectItem
             value="earning"
             //  icon={CalculatorIcon}
