@@ -34,7 +34,7 @@ const TableComponent = ({ earnings }: { earnings: EarningItem[] }) => (
           <TableRow key={item.amount}>
             <TableCell>
               {new Date(`${item.date} 00:00:00`).toLocaleDateString("en-US", {
-                year: "numeric",
+                // year: "numeric",
                 month: "long",
                 day: "numeric",
               })}
@@ -45,7 +45,6 @@ const TableComponent = ({ earnings }: { earnings: EarningItem[] }) => (
                   <Badge color={item.type === "earning" ? "emerald" : "red"}>
                     {valueFormatter(item.amount)}{" "}
                   </Badge>
-
                   <Link
                     href={`/earning/${item.id}`}
                     className="text-xs text-cyan-500"

@@ -2,6 +2,7 @@
 import { formatDate } from "@/utils";
 import { EarningItem } from "@/utils/types";
 import {
+  Badge,
   Button,
   Card,
   Datepicker,
@@ -22,11 +23,15 @@ const Form = ({ earning, baseURL }: FormProps) => {
   let url = earning
     ? `${baseURL}/api/earning/${earning.id}`
     : `${baseURL}/api/earning/`;
+
   const [type, setType] = useState<"earning" | "expense">(
     earning !== undefined ? earning.type : "earning"
   );
+
   const initialDate = earning ? new Date(earning.date) : new Date();
   const [fecha, setFecha] = useState<string>(formatDate(initialDate));
+
+  const [error, setError] = useState<boolean>(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,13 +48,14 @@ const Form = ({ earning, baseURL }: FormProps) => {
     }
     fetch(`${url}`, {
       method,
-      body: JSON.stringify(data),
+      // body: JSON.stringify(data),
+      body: JSON.stringify({}),
       cache: "no-store",
     })
       .then((res) => res.json())
       .then((res) => {
         if (res.code) {
-          alert(res.message);
+          setError(true);
           return;
         }
         router.refresh();
@@ -69,29 +75,38 @@ const Form = ({ earning, baseURL }: FormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <p>{JSON.stringify(earning)}</p>
-      <Card>
-        <Select
-          defaultValue={type}
-          onValueChange={(type) => {
-            handleTypeChange(type);
-          }}
-        >
-          <SelectItem value="earning">Earning</SelectItem>
-          <SelectItem value="expense">Expense</SelectItem>
-        </Select>
-        <TextInput
-          name="amount"
-          placeholder="Amount (numbers)"
-          typeof="numbers"
-          defaultValue={earning?.amount.toString() || ""}
-        />
+    <>
+      <form onSubmit={handleSubmit}>
+        <Card className="flex flex-col gap-2">
+          <Select
+            defaultValue={type}
+            onValueChange={(type) => {
+              handleTypeChange(type);
+            }}
+          >
+            <SelectItem value="earning">Earning</SelectItem>
+            <SelectItem value="expense">Expense</SelectItem>
+          </Select>
+          <TextInput
+            name="amount"
+            placeholder="Amount (numbers)"
+            typeof="numbers"
+            defaultValue={earning?.amount.toString() || ""}
+          />
 
-        <Datepicker defaultValue={initialDate} onValueChange={changeDate} />
-        <Button>{earning ? "Update" : "Submit"}</Button>
-      </Card>
-    </form>
+          <Datepicker defaultValue={initialDate} onValueChange={changeDate} />
+          <Button>{earning ? "Update" : "Submit"}</Button>
+        </Card>
+      </form>
+      {error && (
+        <Badge color="red" className="mt-4">
+          Something went wrong{" "}
+          <button className="text-xs rounded-full px-3 py-1 bg-red-500 text-slate-50">
+            ✖️ close
+          </button>
+        </Badge>
+      )}
+    </>
   );
 };
 

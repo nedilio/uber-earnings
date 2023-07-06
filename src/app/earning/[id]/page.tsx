@@ -16,7 +16,7 @@ export default async function EarningEdit({
 
   return (
     <div>
-      EarningEdit {params.id}
+      Edit Earning: {params.id}
       <Form
         earning={earning}
         baseURL={process.env.API_BASE_URL ? process.env.API_BASE_URL : ""}

@@ -17,9 +17,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Link href={"/"}>Home</Link>
-
-        {children}
+        <main className="flex min-h-screen flex-col items-center justify-center p-4 gap-2">
+          <Link href={"/"}>Home</Link>
+          {children}
+        </main>
       </body>
     </html>
   );
