@@ -12,6 +12,7 @@ import {
 } from "@tremor/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Loader from "./Loader";
 
 interface FormProps {
   earning?: EarningItem;
@@ -35,8 +36,15 @@ const Form = ({ earning, baseURL }: FormProps) => {
 
   const [error, setError] = useState<boolean>(false);
 
+  const [consulting, setConsulting] = useState<boolean>(false);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setConsulting(true);
+    const button = document.querySelector("button#send");
+    if (button) {
+      button.setAttribute("disabled", "true");
+    }
     const formData = new FormData(e.currentTarget);
 
     const method = earning ? "PUT" : "POST";
@@ -46,7 +54,7 @@ const Form = ({ earning, baseURL }: FormProps) => {
       date: fecha,
     };
     if (earning) {
-      data.id = earning.id;
+      data.id = earning?.id;
     }
     fetch(`${url}`, {
       method,
@@ -77,28 +85,38 @@ const Form = ({ earning, baseURL }: FormProps) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <Card className="flex flex-col gap-2">
-          <Select
-            defaultValue={type}
-            onValueChange={(type) => {
-              handleTypeChange(type);
-            }}
-          >
-            <SelectItem value="earning">Earning</SelectItem>
-            <SelectItem value="expense">Expense</SelectItem>
-          </Select>
-          <TextInput
-            name="amount"
-            placeholder="Amount (numbers)"
-            typeof="numbers"
-            defaultValue={earning?.amount.toString() || ""}
-          />
+      <div className="relative">
+        {consulting && <Loader />}
+        <form onSubmit={handleSubmit}>
+          <Card className="flex flex-col gap-2">
+            <Select
+              defaultValue={type}
+              onValueChange={(type) => {
+                handleTypeChange(type);
+              }}
+            >
+              <SelectItem value="earning">Earning</SelectItem>
+              <SelectItem value="expense">Expense</SelectItem>
+            </Select>
+            <TextInput
+              name="amount"
+              placeholder="Amount (numbers)"
+              typeof="numbers"
+              defaultValue={earning?.amount.toString() || ""}
+            />
 
-          <Datepicker defaultValue={initialDate} onValueChange={changeDate} />
-          <Button>{earning ? "Update" : "Submit"}</Button>
-        </Card>
-      </form>
+            <Datepicker defaultValue={initialDate} onValueChange={changeDate} />
+            <Button
+              id="send"
+              type="submit"
+              variant="primary"
+              className="disabled:opacity-50"
+            >
+              {earning ? "Update" : "Submit"}
+            </Button>
+          </Card>
+        </form>
+      </div>
       {error && (
         <Badge color="red" className="mt-4">
           Something went wrong{" "}

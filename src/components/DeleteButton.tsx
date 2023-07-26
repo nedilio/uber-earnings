@@ -5,8 +5,7 @@ import { useRouter } from "next/navigation";
 
 const DeleteButton = ({ id }: { id: string }) => {
   const router = useRouter();
-  const handelDelete = (id: string) => {
-    console.log("❌ Deleting earning: ", id);
+  const handleDelete = (id: string) => {
     fetch(`/api/earning/${id}`, {
       method: "DELETE",
     }).then(() => {
@@ -18,7 +17,7 @@ const DeleteButton = ({ id }: { id: string }) => {
       className="text-xs"
       color="slate"
       size="xs"
-      onClick={() => handelDelete(id)}
+      onClick={() => handleDelete(id)}
     >
       ❌
     </Button>
