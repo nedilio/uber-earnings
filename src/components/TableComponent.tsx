@@ -18,15 +18,15 @@ import DeleteButton from "./DeleteButton";
 
 const TableComponent = ({ earnings }: { earnings: EarningItem[] }) => (
   <Card>
-    <Title>Ganancias - Gastos</Title>
+    <Title>Earnings 💵 - 💸 Expenses</Title>
     <Link href="/earning" className="text-cyan-500 underline">
       Add Item
     </Link>
     <Table className="mt-5">
       <TableHead>
         <TableRow>
-          <TableHeaderCell>Fechas</TableHeaderCell>
-          <TableHeaderCell>Cantidad</TableHeaderCell>
+          <TableHeaderCell>Date</TableHeaderCell>
+          <TableHeaderCell>Amount</TableHeaderCell>
         </TableRow>
       </TableHead>
       <TableBody>
