@@ -6,11 +6,13 @@ import { useRouter } from "next/navigation";
 const DeleteButton = ({ id }: { id: string }) => {
   const router = useRouter();
   const handleDelete = (id: string) => {
-    fetch(`/api/earning/${id}`, {
-      method: "DELETE",
-    }).then(() => {
-      router.refresh();
-    });
+    if (window.confirm("Are you sure you want to delete this?")) {
+      fetch(`/api/earning/${id}`, {
+        method: "DELETE",
+      }).then(() => {
+        router.refresh();
+      });
+    }
   };
   return (
     <Button
